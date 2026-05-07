@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.FAROOQI'S - Luxury Skincare | Premium Beauty Products</title>
+    <meta name="description" content="Discover premium skincare products at A.FAROOQI'S. Dermatologist-approved, 100% original products with free delivery across Pakistan. Glow starts here!">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nude-beige': '#F5F2E9',
+                        'blush-pink': '#F8D7DA',
+                        'warm-cream': '#FDF6E3',
+                        'light-gold': '#E8C39E',
+                        'soft-brown': '#8B7355'
+                    },
+                    fontFamily: {
+                        'playfair': ['Playfair Display', 'serif'],
+                        'inter': ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(232, 195, 158, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'product': '0 20px 40px rgba(139, 115, 85, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #E8C39E #f8fafc;
+        }
+        *::-webkit-scrollbar {
+            width: 8px;
+        }
+        *::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        *::-webkit-scrollbar-thumb {
+            background: #E8C39E;
+            border-radius: 4px;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(232, 195, 158, 0.3); }
+            to { box-shadow: 0 0 30px rgba(232, 195, 158, 0.6); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #F5F2E9 0%, #FDF6E3 50%, #F8D7DA 100%);
+        }
+        
+        .product-card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(139, 115, 85, 0.2);
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #E8C39E, transparent);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F5F2E9, #FDF6E3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-nude-beige font-inter text-gray-800 overflow-x-hidden">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="w-24 h-24 border-4 border-light-gold border-t-transparent rounded-full animate-spin mb-8"></div>
+        <div class="text-2xl font-playfair text-soft-brown animate-pulse">A.FAROOQI'S</div>
+        <div class="text-sm text-gray-500 mt-2">Loading Luxury...</div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full glass backdrop-blur-md z-50 px-6 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-r from-light-gold to-blush-pink rounded-2xl flex items-center justify-center animate-glow">
+                    <i class="fas fa-spa text-white text-xl"></i>
+                </div>
+                <div class="text-2xl font-playfair font-semibold bg-gradient-to-r from-soft-brown to-gray-700 bg-clip-text text-transparent">
+                    A.FAROOQI'S
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-lg font-medium text-gray-700 hover:text-soft-brown transition-colors duration-300 relative group">
+                    Home
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-light-gold to-blush-pink transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#shop" class="text-lg font-medium text-gray-700 hover:text-soft-brown transition-colors duration-300 relative group">
+                    Shop
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-light-gold to-blush-pink transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#bestsellers" class="text-lg font-medium text-gray-700 hover:text-soft-brown transition-colors duration-300 relative group">
+                    Best Sellers
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-light-gold to-blush-pink transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="text-lg font-medium text-gray-700 hover:text-soft-brown transition-colors duration-300 relative group">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-light-gold to-blush-pink transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#contact" class="text-lg font-medium text-gray-700 hover:text-soft-brown transition-colors duration-300 relative group">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-light-gold to-blush-pink transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <!-- Right Icons -->
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search products..." class="w-64 md:w-80 px-4 py-2 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/30 focus:outline-none focus:ring-2 focus:ring-light-gold transition-all duration-300 text-sm">
+                    <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <div class="relative">
+                    <button id="cartBtn" class="relative p-3 bg-white/50 backdrop-blur-sm rounded-2xl hover:bg-white transition-all duration-300 animate-glow">
+                        <i class="fas fa-shopping-bag text-xl text-soft-brown"></i>
+                        <span class="absolute -top-2 -right-2 w-6 h-6 bg-blush-pink text-white text-xs rounded-full flex items-center justify-center font-medium">3</span>
+                    </button>
+                </div>
+                <div class="relative">
+                    <button id="wishlistBtn" class="p-3 bg-white/50 backdrop-blur-sm rounded-2xl hover:bg-white transition-all duration-300">
+                        <i class="far fa-heart text-xl text-soft-brown"></i>
+                    </button>
+                </div>
+                <button id="loginBtn" class="px-6 py-2 bg-gradient-to-r from-light-gold to-blush-pink text-white font-medium rounded-xl hover:shadow-glow transition-all duration-300">
+                    Login
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2">
+                <i class="fas fa-bars text-2xl text-soft-brown"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg relative pt-24 pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center h-screen">
+                <!-- Hero Content -->
+                <div class="animate-fade-in-up">
+                    <div class="inline-block bg-white/80 backdrop-blur-sm px-8 py-4 rounded-3xl mb-8 glass">
+                        <span class="text-sm bg-gradient-to-r from-blush-pink to-light-gold bg-clip-text text-transparent font-medium uppercase tracking-wider">LIMITED TIME SALE</span>
+                    </div>
+                    <h1 class="text-6xl md:text-7xl font-playfair font-bold bg-gradient-to-r from-soft-brown via-gray-800 to-soft-brown bg-clip-text text-transparent leading-tight mb-6">
+                        Luxury Skincare<br>
+                        <span class="text-5xl md:text-6xl">For Radiant Glow</span>
+                    </h1>
+                    <p class="text-xl text-gray-700 mb-8 max-w-lg leading-relaxed">
+                        Dermatologist-approved premium skincare. 100% original products with FREE delivery across Pakistan.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-12">
+                        <button class="px-12 py-5 bg-gradient-to-r from-light-gold to-blush-pink text-white font-semibold text-lg rounded-2xl hover:shadow-glow transform hover:-translate-y-1 transition-all duration-300">
+                            Shop Now
+                        </button>
+                        <button class="px-12 py-5 border-2 border-white/50 bg-white/50 backdrop-blur-sm font-semibold text-lg rounded-2xl hover:bg-white transition-all duration-300">
+                            Find Your Routine
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-8 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span>FREE DELIVERY PAKISTAN</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-shipping-fast text-light-gold"></i>
+                            <span>24-48HR DELIVERY</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hero Product -->
+                <div class="relative">
+                    <div class="relative z-20 animate-float">
+                        <div class="glass p-8 rounded-3xl max-w-md mx-auto backdrop-blur-xl shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Premium Serum" class="w-full h-96 object-cover rounded-2xl shadow-2xl">
+                            <div class="mt-6 text-center">
+                                <h3 class="text-2xl font-playfair font-semibold text-soft-brown mb-2">Vitamin C Serum</h3>
+                                <div class="flex items-center justify-center space-x-2 text-yellow-400 mb-4">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <span class="text-sm text-gray-600">(1,247)</span>
+                                </div>
+                                <div class="flex items-center justify-center space-x-4 text-2xl font-bold">
+                                    <span class="text-soft-brown line-through">$50</span>
+                                    <span class="text-light-gold">$35</span>
+                                    <span class="text-sm text-green-600 font-semibold">30% OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-24 bg-gradient-to-b from-white to-nude-beige">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div class="group">
+                    <div class="text-4xl md:text-5xl font-bold text-light-gold mb-4 group-hover:animate-bounce">10K+</div>
+                    <div class="text-xl font-medium text-gray-700">Happy Customers</div>
+                </div>
+                <div class="group">
+                    <div class="text-4xl md:text-5xl font-bold text-blush-pink mb-4 group-hover:animate-bounce">500+</div>
+                    <div class="text-xl font-medium text-gray-700">Products Sold</div>
+                </div>
+                <div class="group">
+                    <div class="text-4xl md:text-5xl font-bold text-soft-brown mb-4 group-hover:animate-bounce">50+</div>
+                    <div class="text-xl font-medium text-gray-700">Countries</div>
+                </div>
+                <div class="group">
+                    <div class="text-4xl md:text-5xl font-bold text-light-gold mb-4 group-hover:animate-bounce">4.9</div>
+                    <div class="text-xl font-medium text-gray-700">Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="shop" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-playfair font-bold bg-gradient-to-r from-soft-brown to-gray-800 bg-clip-text text-transparent mb-6">
+                    Trending Products
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Discover our best-selling skincare essentials loved by thousands
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="group product-card-hover bg-white rounded-3xl p-8 shadow-product hover:shadow-glow transition-all duration-500 glass/50 backdrop-blur-sm border border-white/20">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1611100481087-2eb83c6dd97b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Vitamin C Serum" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-blush-pink text-white px-3 py-1 rounded-xl text-sm font-semibold animate-pulse">30% OFF</div>
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-white/90 backdrop-blur-sm p-3 rounded-2xl transition-all duration-300 shadow-2xl">
+                            <i class="fas fa-shopping-cart text-soft-brown"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <h3 class="font-playfair text-2xl font-semibold text-soft-brown mb-3 group-hover:text-gray-800 transition-colors">Vitamin C Serum</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(1,247)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold">
+                                <span class="text-gray-500 line-through">$50</span>
+                                <span class="text-light-gold ml-2">$35</span>
+                            </div>
+                            <div class="text-xl font-bold text-green-600">Rs. 9,999</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="group product-card-hover bg-white rounded-3xl p-8 shadow-product hover:shadow-glow transition-all duration-500 glass/50 backdrop-blur-sm border border-white/20">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hyaluronic Acid" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-green-400 text-white px-3 py-1 rounded-xl text-sm font-semibold">Bestseller</div>
+                    </div>
+                    <div>
+                        <h3 class="font-playfair text-2xl font-semibold text-soft-brown mb-3 group-hover:text-gray-800 transition-colors">Hyaluronic Acid</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(2,847)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold">
+                                <span class="text-light-gold">$40</span>
+                            </div>
+                            <div class="text-xl font-bold text-green-600">Rs. 11,499</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more product cards similarly -->
+                <!-- Product 3: Sunscreen -->
+                <div class="group product-card-hover bg-white rounded-3xl p-8 shadow-product hover:shadow-glow transition-all duration-500 glass/50 backdrop-blur-sm border border-white/20">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1608248597788-b0ebdf0e9e1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sunscreen" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div>
+                        <h3 class="font-playfair text-2xl font-semibold text-soft-brown mb-3">SPF 50 Sunscreen</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(987)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-light-gold">$28</div>
+                            <div class="text-xl font-bold text-green-600">Rs. 7,999</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Night Cream -->
+                <div class="group product-card-hover bg-white rounded-3xl p-8 shadow-product hover:shadow-glow transition-all duration-500 glass/50 backdrop-blur-sm border border-white/20">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Night Cream" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-purple-400 text-white px-3 py-1 rounded-xl text-sm font-semibold">New</div>
+                    </div>
+                    <div>
+                        <h3 class="font-playfair text-2xl font-semibold text-soft-brown mb-3">Retinol Night Cream</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-600">(456)</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-bold text-light-gold">$45</div>
+                            <div class="text-xl font-bold text-green-600">Rs. 12,999</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers Section -->
+    <section id="bestsellers" class="py-24 bg-gradient-to-b from-nude-beige to-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-playfair font-bold bg-gradient-to-r from-soft-brown to-gray-800 bg-clip-text text-transparent mb-6">
+                    Best Sellers
+                </h2>
+            </div>
+            <!-- Similar product grid for best sellers -->
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-playfair font-bold text-soft-brown mb-6">What Our Customers Say</h2>
+                <p class="text-xl text-gray-600">Trusted by thousands of glowing customers</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial cards -->
+                <div class="glass p-8 rounded-3xl text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-light-gold to-blush-pink rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <i class="fas fa-star text-2xl text-white"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"Best skincare I've ever used! My skin has never been more radiant."</p>
+                    <div class="font-semibold text-soft-brown">Sara Khan</div>
+                    <div class="text-sm text-gray-500">Karachi, Pakistan</div>
+                </div>
+                <!-- More testimonials -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Buttons -->
+    <div class="fixed bottom-8 right-8 space-y-4 z-40">
+        <a href="mailto:aimifarooqi97@gmail.com" class="w-16 h-16 bg-red-500 hover:bg-red-600 text-white rounded-2xl flex items-center justify-center shadow-2xl hover:shadow-glow transition-all duration-300 animate-bounce">
+            <i class="fab fa-google text-xl"></i>
+        </a>
+        <a href="https://wa.me/923333333333" class="w-16 h-16 bg-green-500 hover:bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-2xl hover:shadow-glow transition-all duration-300 animate-pulse">
+            <i class="fab fa-whatsapp text-xl"></i>
+        </a>
+        <a href="https://instagram.com/afarooqis" class="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-glow text-white rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-300">
+            <i class="fab fa-instagram text-xl"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-t from-soft-brown to-gray-800 text-white py-16 mt-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-8">
+                        <div class="w-12 h-12 bg-light-gold rounded-2xl flex items-center justify-center">
+                            <i class="fas fa-spa text-soft-brown text-xl"></i>
+                        </div>
+                        <div class="font-playfair text-2xl font-bold">A.FAROOQI'S</div>
+                    </div>
+                    <p class="text-gray-300 mb-6">Premium skincare for radiant, glowing skin. Dermatologist-approved and 100% original.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center hover:bg-white/40 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center hover:bg-white/40 transition-colors">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl font-semibold mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Shop</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Best Sellers</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl font-semibold mb-6">Customer Care</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-light-gold transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Shipping</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-light-gold transition-colors">Track Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-playfair text-xl font-semibold mb-6">Contact Info</h4>
+                    <div class="space-y-3">
+                        <p class="flex items-center">
+                            <i class="fas fa-envelope w-5 mr-3"></i>
+                            aimifarooqi97@gmail.com
+                        </p>
+                        <p class="flex items-center">
+                            <i class="fas fa-phone w-5 mr-3"></i>
+                            +92 333 3333333
+                        </p>
+                        <p>FREE DELIVERY ALL OVER PAKISTAN</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/20 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 A.FAROOQI'S. All rights reserved. Premium Skincare Pakistan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full mx-4 bg-white rounded-3xl shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-playfair font-bold text-soft-brown">Shopping Cart</h2>
+                    <button id="closeCart" class="text-2xl text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="cartItems" class="space-y-4 mb-8">
+                    <!-- Cart items will be populated here -->
+                </div>
+                <div class="border-t pt-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <span class="text-2xl font-bold text-soft-brown">Total: $95.00</span>
+                        <span class="text-xl text-green-600 font-bold">Rs. 26,499</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="flex-1 bg-gradient-to-r from-light-gold to-blush-pink text-white py-4 px-8 rounded-2xl font-semibold hover:shadow-glow transition-all">
+                            Checkout Securely
+                        </button>
+                        <button class="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-2xl font-semibold hover:bg-gray-50 transition-all">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+
+        // Floating Particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Cart Functionality
+        const cartBtn = document.getElementById('cartBtn');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+
+        cartBtn.addEventListener('click', () => {
+            cartModal.classList.remove('hidden');
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartModal.classList.add('hidden');
+        });
+
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.classList.add('hidden');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.md\\:hidden');
+        // Add mobile menu functionality here
+
+        // Add to Cart Buttons
+        document.querySelectorAll('.product-card-hover button i.fa-shopping-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Add to cart logic
+                alert('Added to cart! 🛒');
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for scroll animations
+        document.querySelectorAll('.product-card-hover, section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            observer.observe(el);
+        });
+
+        // Countdown Timer
+        function startCountdown() {
+            const now = new Date().getTime();
+            const saleEnd = now + 24 * 60 * 60 * 1000; // 24 hours from now
+            
+            function updateTimer() {
+                const distance = saleEnd - new Date().getTime();
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Update timer display elements (add to HTML if needed)
+            }
+            
+            setInterval(updateTimer, 1000);
+        }
+        // startCountdown();
+
+        // Search functionality
+        const searchInput = document.querySelector('input[placeholder*="Search"]');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            // Implement search filtering
+        });
+
+        console.log('A.FAROOQI\'S Luxury Skincare Website Loaded Successfully! ✨');
+    </script>
+</body>
+</html>
